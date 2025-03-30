@@ -2,6 +2,7 @@ sequenceDiagram
     participant browser
     participant Server
 
+```mermaid
 note right of browser: START
     browser->>+Server: HTTP Request, POST to https://studies.cs.helsinki.fi/exampleapp/new_note.
     Server->>+browser: 302 Response with GET redirections.
@@ -18,3 +19,4 @@ note right of browser: START
     browser->>+Server: HTTP Request, GET. to 128.214.137.97:443 requesting favicon.ico
     Server->>+browser: 404 Response - Not Found
 note right of browser: END
+```
