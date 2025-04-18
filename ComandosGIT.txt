@@ -1,0 +1,36 @@
+cd C:\Users\eliez\RepositorioGit
+
+Windows (cmd):
+	mkdir <NombreDeLaNuevaCarpeta> = Crear nueva carpeta
+	cd .. = Subir una carpeta o directorio, navegar.
+	cd <Nombre de la carpeta> = Entrar en carpeta.
+	dir = Mostrar archivos y carpetas de esta ruta
+	cls = Limpiar terminal
+	start <archivo.extension> = Abrir archivo
+	type <archivo.extension> = Escribir en la terminal lo que contiene el archivo
+	echo "" >.gitignore = Crear apartado de .gitignore para añadir ficheros a ignorar en stage y commit
+
+
+De GIT:
+	git config --global user.name "eli*****tt"
+	git config --global user.email "eli******tt@gmail.com"
+	git add <archivo.extension> = Añadir archivo al Stage para el posterior commit o su borrado.
+	git commit -m "comentario" -n = Enviar los cambios (Crear commit)
+	git status = Mostrar el estado actual del GIT y sus ficheros.
+	git log = Mostrar los commits con su HASH ampliado, fecha y comentarios.
+	git checkout <archivo.extension>
+	git reset
+	git log --graph --pretty=oneline
+	git log --graph --decorate --all --oneline
+	git config --global alias.tree "log --graph --decorate --all --oneline"
+	git tree = Mostrar commits con tag reducido y tags si existen.
+	git diff
+	git reset --hard <HASH/MiniHash> = Volver la "master" a un commit especificado en el hash
+	git reflog
+	git tag <nombreDelTag>= Tagear un punto del main activo (Ejemplo: git tag Stable).
+	git add . = Añadir todos los ficheros.
+
+
+.gitignore:
+**/nuevoFicheroSinAnadir.txt
+<Directorio>/<Nombre.extension>
