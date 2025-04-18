@@ -29,7 +29,7 @@ De GIT:
 	git reflog
 	git tag <nombreDelTag>= Tagear un punto del main activo (Ejemplo: git tag Stable).
 	git add . = Añadir todos los ficheros.
-
+	git remote add origin github@github.com:/username/nameOfRepository.git = Clonar desde GIT a Github 
 
 .gitignore:
 **/nuevoFicheroSinAnadir.txt
