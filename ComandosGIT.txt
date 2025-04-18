@@ -14,8 +14,7 @@ Windows (cmd):
 De GIT:
 	git config --global user.name "eli*****tt"
 	git config --global user.email "eli******tt@gmail.com"
-	git add <archivo.extension> = Añadir archivo al Stage para el posterior commit o su borrado.
-	git commit -m "comentario" -n = Enviar los cambios (Crear commit)
+	git init <Nombre> = Crea un nuevo repositorio de Git
 	git status = Mostrar el estado actual del GIT y sus ficheros.
 	git log = Mostrar los commits con su HASH ampliado, fecha y comentarios.
 	git checkout <archivo.extension>
@@ -29,7 +28,10 @@ De GIT:
 	git reflog
 	git tag <nombreDelTag>= Tagear un punto del main activo (Ejemplo: git tag Stable).
 	git add . = Añadir todos los ficheros.
-	git remote add origin github@github.com:/username/nameOfRepository.git = Clonar desde GIT a Github 
+	git add <archivo.extension> = Añadir archivo al Stage para el posterior commit o su borrado.
+	git commit -m "comentario" -n = Enviar los cambios (Crear commit)
+	git remote add origin github@github.com:/username/nameOfRepository.git = Clonar desde GIT a Github
+	git push -u origin main
 
 .gitignore:
 **/nuevoFicheroSinAnadir.txt
