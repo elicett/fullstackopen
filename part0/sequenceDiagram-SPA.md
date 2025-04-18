@@ -1,8 +1,8 @@
+```mermaid
 sequenceDiagram
     participant Browser
     participant Server
 
-```mermaid
     Note over Browser: The user write a note and make click in "Save"
 
     Browser->>Server: POST /exampleapp/new_note_spa

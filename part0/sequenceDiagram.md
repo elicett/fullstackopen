@@ -1,8 +1,8 @@
+```mermaid
 sequenceDiagram
     participant browser
     participant Server
 
-```mermaid
 note right of browser: START
     browser->>+Server: HTTP Request, POST to https://studies.cs.helsinki.fi/exampleapp/new_note.
     Server->>+browser: 302 Response with GET redirections.
