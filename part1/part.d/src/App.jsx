@@ -1,9 +1,10 @@
-// Part 1, subpart d. Exercise 1.8: Unicafe, step 3
+// Part 1, subpart d. Exercise 1.9: Unicafe, step 4
 import { useState } from 'react'
 
 const Statistics = ({ good, neutral, bad }) => {
 
   const total = good+neutral+bad
+  if (total === 0) return (<h1>No feedback given</h1>)
   const average = (good*1+neutral*0+bad*-1)/(good+neutral+bad)
   const positive = ((good/total)*100)
 
