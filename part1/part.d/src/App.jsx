@@ -1,23 +1,61 @@
-// Part 1, subpart d. Exercise 1.9: Unicafe, step 4
+// Part 1, subpart d. Exercise 1.11: Unicafe, step 6
 import { useState } from 'react'
+
+
+const StatisticLine = ({ text, value }) =>{
+  return (
+    <div>
+      {text}{value}
+    </div>
+  )
+
+}
 
 const Statistics = ({ good, neutral, bad }) => {
 
-  const total = good+neutral+bad
-  if (total === 0) return (<h1>No feedback given</h1>)
+  const all = good+neutral+bad
+  if (all === 0) return (<h1>No feedback given</h1>)
   const average = (good*1+neutral*0+bad*-1)/(good+neutral+bad)
-  const positive = ((good/total)*100)
+  const positive = ((good/all)*100)  + '%'
 
   return (
-    <div>
-      <h1>statistics</h1>
-      <p>good={good}</p>
-      <p>neutral={neutral}</p>
-      <p>bad={bad}</p>
-      <p>total={total}</p>
-      <p>average={average}</p>
-      <p>positive={positive}%</p>
-    </div>
+    <table>
+
+      <thead>
+        <tr>
+          <th colSpan={2}><h1>statistics</h1></th>
+        </tr>
+      </thead>
+
+      <tbody>
+      <tr>
+        <td><StatisticLine text="good"/></td>
+        <td><StatisticLine value={good}/></td>
+      </tr>
+      <tr>
+        <td><StatisticLine text="neutral"/></td>
+        <td><StatisticLine value={neutral}/></td>
+      </tr>
+      <tr>
+        <td><StatisticLine text="bad"/></td>
+        <td><StatisticLine value={bad}/></td>
+      </tr>
+      <tr>
+        <td><StatisticLine text="all"/></td>
+        <td><StatisticLine value={all}/></td>
+      </tr>
+      <tr>
+        <td><StatisticLine text="average"/></td>
+        <td><StatisticLine value={average}/></td>
+      </tr>
+      <tr>
+        <td><StatisticLine text="positive"/></td>
+        <td><StatisticLine value={positive}/></td>
+      </tr>
+      </tbody>
+
+    </table>
+    
   )
 }
 
