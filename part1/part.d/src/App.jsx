@@ -1,4 +1,4 @@
-// Part 1, subpart d. Exercise 1.12: anecdotes, step 1
+// Part 1, subpart d. Exercise 1.13: anecdotes, step 2
 import { useState } from 'react'
 
 const generateRandom = () => {
@@ -8,7 +8,6 @@ const generateRandom = () => {
       Math.floor(Math.random() * (max - min + 1) + min)
     )
 }
-
 
 const App = () => {
   const anecdotes = [
@@ -23,14 +22,26 @@ const App = () => {
   ]
 
   const [selected, setSelected] = useState(0)
+  const [votes, setVotes] = useState([0,0,0,0,0,0,0,0]);
 
   const handleSelected = () => {
     setSelected(generateRandom())
   }
 
+  const copy = { ...votes }
+  // incrementa en uno el valor de la propiedad 2 copy2
+
+  const handleVote = () => {
+      const copy = [... votes]
+      copy[selected] += 1
+      setVotes(copy)
+  }
+
   return (
     <div>
       <p>{anecdotes[selected]}</p>
+      <p>has {votes[selected]} votes</p>
+      <button onClick={handleVote}>vote</button>
       <button onClick={handleSelected}>next anecdote</button>
     </div>
   )
