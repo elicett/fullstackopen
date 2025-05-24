@@ -1,4 +1,4 @@
-//Part 2, subpart a. Rendering one colection, modules. Exercise 2.2, (step 7):
+//Part 2, subpart a. Rendering one colection, modules. Exercise 2.3, (step 8):
 import Note from './components/Note'
 
 
@@ -36,15 +36,16 @@ const Part = (props) => {
   ))
   
   const exercisesArray = props.course
-  let valor = 0
-  for (let k = 0; k < exercisesArray.length; k++) {
-    valor = valor + exercisesArray[k].exercises
-  }
+  console.log("exercisesArray:", exercisesArray)
+  const acumulador=0
+  const totalExercises = exercisesArray.reduce((acumulador, valorActual) =>{
+    return acumulador = acumulador + valorActual.exercises
+  }, 0)
 
   return(
     <div>
       <li>{miLista}</li>
-      <p><strong>Total of {valor} exercises</strong></p>
+      <p><strong>Total of {totalExercises} exercises</strong></p>
     </div>
   )
 }
