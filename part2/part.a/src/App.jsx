@@ -1,5 +1,6 @@
-//Part 2, subpart a. Rendering one colection, modules. Exercise 2.1, (step 6):
+//Part 2, subpart a. Rendering one colection, modules. Exercise 2.2, (step 7):
 import Note from './components/Note'
+
 
 const Course = (props) => {
   return(
@@ -28,18 +29,22 @@ const Content = (props) => {
 
 const Part = (props) => {
 
-  const array = props.course
-  //array.forEach((parts) => console.log(parts.name, parts.exercises))
-  
-  const miLista = array.map(parts => (
-    <li key={parts.id}>{parts.name}: {parts.exercises}</li>
+  const identifierArray = props.course
+  //identifierArray.forEach((parts) => console.log(parts.name,":", parts.exercises))
+  const miLista = identifierArray.map(parts => (
+    <p key={parts.id}>{parts.name}: {parts.exercises}</p>
   ))
+  
+  const exercisesArray = props.course
+  let valor = 0
+  for (let k = 0; k < exercisesArray.length; k++) {
+    valor = valor + exercisesArray[k].exercises
+  }
 
   return(
     <div>
-      <p>
-        {miLista}
-      </p>
+      <li>{miLista}</li>
+      <p><strong>Total of {valor} exercises</strong></p>
     </div>
   )
 }
@@ -63,10 +68,14 @@ const App = () => {
         name: 'State of a component',
         exercises: 14,
         id: 3
-      }
+      },
+      {
+        name: 'Redux',
+        exercises: 11,
+        id: 4
+      }  
     ]
   }
-
   return <Course course={course} />
 }
 
