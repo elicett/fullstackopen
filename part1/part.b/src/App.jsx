@@ -1,4 +1,4 @@
-// Part b: Javascript, Step 1.5
+// Part c: Component state, event comtroller. Step 1
 const Header = (props) => {
   return (
     <div>
