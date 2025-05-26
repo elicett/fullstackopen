@@ -3,18 +3,17 @@ import { useState } from 'react'
 
 const App = () => {
   const [contacts, setContacts] = useState([
-    { name: 'Arto Hellas' }
+    { name: 'Arto Hellas' , number: '39-44-5323523'}
   ]) 
   const [newName, setNewName] = useState('')
-
+  const [newNumber, setNewNumber] = useState('')
 
   //Funciones
   const addValues = (event) => {
     event.preventDefault()
-    console.log('Boton clickeado en:', event.target)
-    console.log(contacts.map(valores => valores.name).includes(newName))
     const contactObject = {
-      name: newName
+      name: newName,
+      number: newNumber
     }
     
     if (contacts.map(valores => valores.name).includes(newName)===true){
@@ -22,35 +21,37 @@ const App = () => {
       event.preventDefault()
       return
     }
+
     setContacts(contacts.concat(contactObject))
     setNewName('')
+    setNewNumber('')
   }
 
   //Handlers
-  const handleAddValues = (event) => {
+  const handleAddName = (event) => {
     console.log(event.target.value)
     setNewName(event.target.value)
   }
 
+    const handleAddNumber = (event) => {
+    console.log(event.target.value)
+    setNewNumber(event.target.value)
+  }
 
   return (
     <div>
       <h2>Phonebook</h2>
       <form onSubmit={addValues}>
-        <div>
-          name: 
-          <input 
-            value={newName}
-            onChange={handleAddValues}
-          />
-          <button type="submit">add</button>
-        </div>
+        <div>name: <input value={newName} onChange={handleAddName}/></div>
+        <div>number: <input value={newNumber} onChange={handleAddNumber}/></div>
+        <div><button type="submit">add</button></div>
+        
       </form>
       <h2>Numbers</h2>
         <div>
           {contacts.map(valores =>
             <p key={valores.name}>
-              {valores.name}
+              {valores.name}: {valores.number}
             </p>
           )}
         </div>
