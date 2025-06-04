@@ -1,5 +1,59 @@
-//Part 2, subpart b. Forms Exercise 2.9, (step 4):
+//Part 2, subpart b. Forms Exercise 2.10, (step 5):
 import { useState } from 'react'
+
+
+
+const Filter = ( {handleFinder, finder} ) => {
+  return (
+    <div>
+      <h1>
+      Phonebook
+      </h1>
+      <form>
+        <div>filter show with:<input value={finder} onChange={handleFinder}></input></div>
+      </form>
+    </div>
+  )
+}
+
+
+const PersonForm = ( {handleAddName, handleAddNumber, newName, handleSetContacts, newNumber} ) => {
+
+  return (
+    <div>
+      <h1>
+        add a new
+      </h1>
+      <form  onSubmit={handleSetContacts}>
+        <div>name:<input value={newName} onChange={handleAddName}></input></div>
+        <div>number:<input value={newNumber} onChange={handleAddNumber}></input></div>
+        <div><button type="submit" >add</button></div>
+      </form>
+    </div>  
+  )
+}
+
+
+const Persons = ({ contacts, finder }) => {
+  const filteredContacts = contacts.filter(contact =>
+    contact.name.toLowerCase().includes(finder.toLowerCase())
+  );
+  const contactItems = filteredContacts.map(contact => (
+    <p key={contact.id}>
+      {contact.name} {contact.number}
+    </p>
+  ));
+
+  return (
+    <div>
+      <h2>Numbers</h2>
+      {contactItems.length > 0 ? contactItems : <p>No contacts found.</p>}
+    </div>
+  );
+};
+
+
+
 
 const App = () => {
   const [contacts, setContacts] = useState([
@@ -16,33 +70,29 @@ const App = () => {
   //Funciones
 
   //Funcion para añadir registro
-  const addValues = (event) => {
-    event.preventDefault()
 
+  //Handlers
+
+  const handleSetContacts = (event) => {
+    event.preventDefault()
+    console.log("Se ejecutó handleSetContacts")
     if (contacts.map(valores => valores.name).includes(newName)===true){
       alert('The contact "'+newName+'" already exists')
       event.preventDefault()
       return
     }
-
-    const contactObject = {
+    const newObject = {
       name: newName,
-      number: newNumber
+      number: newNumber,
+      id: contacts.length + 1,
     }
-
-    setContacts(contacts.concat(contactObject))
+    setContacts(contacts.concat(newObject))
     setNewName('')
     setNewNumber('')
   }
 
-  //Funcion para mostrar registro buscado
-  const contactsToShow = contacts.filter(
-    cFiltered => cFiltered.name.toLowerCase().includes(finder.toLowerCase())
-  )
-
-
-  //Handlers
   const handleAddName = (event) => {
+    event.preventDefault()
     console.log(event.target.value)
     setNewName(event.target.value)
   }
@@ -53,35 +103,18 @@ const App = () => {
   }
 
   const handleFinder = (event) => {
-    console.log(event.target.value)
     //toLowerCase()
     setFinder(event.target.value)
+    console.log(event.target.value)
   }
-
 
   return (
     <div>
-      <h2>Phonebook</h2>
-      <div> filter show with <input value={finder} onChange={handleFinder}/></div>
-
-      <h2>add a new</h2>
-      <form onSubmit={addValues}>
-        <div>name: <input value={newName} onChange={handleAddName}/></div>
-        <div>number: <input value={newNumber} onChange={handleAddNumber}/></div>
-        <div><button type="submit">add</button></div>
-      </form>
-
-      <h2>Numbers</h2>
-        <div>
-          {contactsToShow.map(contact =>
-            <p key={contact.id}> 
-              {contact.name} {contact.number}
-            </p>
-          )}
-        </div>
+      <Filter contacts={contacts} handleAddName={handleAddName} handleFinder={handleFinder} handleAddNumber={handleAddNumber} handleSetContacts={handleSetContacts} newName={newName} newNumber={newNumber} finder={finder}/>
+      <PersonForm contacts={contacts} handleAddName={handleAddName} handleAddNumber={handleAddNumber} handleSetContacts={handleSetContacts} newName={newName} newNumber={newNumber}/>
+      <Persons contacts={contacts} finder={finder}/>
     </div>
   )
 }
 
 export default App
-

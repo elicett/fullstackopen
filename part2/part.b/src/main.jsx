@@ -1,4 +1,4 @@
-//Part 2, subpart b. Rendering one colection, modules. Exercise 2.5, (step 10):
+//Part 2, subpart b. Forms Exercise 2.10, (step 5):
 
 import React from 'react'
 import ReactDOM from 'react-dom/client'
