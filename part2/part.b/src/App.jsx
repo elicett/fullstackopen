@@ -1,6 +1,7 @@
-//Part 2, subpart b. altering data on the server, Exercise 2.12, (step 7):
+//Part 2, subpart b. altering data on the server, Exercise 2.13, (step 8)
 import { useState, useEffect } from 'react'
-import axios from 'axios'
+import noteService from './services/notes.js'
+
 
 
 const Filter = ( {handleFinder, finder} ) => {
@@ -35,6 +36,8 @@ const PersonForm = ( {handleAddName, handleAddNumber, newName, handleSetContacts
 
 
 const Persons = ({ contacts, finder }) => {
+  console.log(contacts)
+
   const filteredContacts = contacts.filter(contact =>
     contact.name.toLowerCase().includes(finder.toLowerCase())
   );
@@ -50,9 +53,8 @@ const Persons = ({ contacts, finder }) => {
       {contactItems.length > 0 ? contactItems : <p>No contacts found.</p>}
     </div>
   );
+
 };
-
-
 
 
 const App = () => {
@@ -62,19 +64,18 @@ const App = () => {
   const [finder, setFinder] = useState('')
 
 
+  //Funciones
+
   const hook = () => {
     console.log('effect')
-    axios
-      .get('http://localhost:3001/persons')
+    noteService
+      .getAll()
       .then(response => {
         console.log('promise fulfilled')
         setContacts(response.data)
       })
   }
   useEffect(hook, [])
-
-  //Funciones
-  //Funcion para añadir registro
 
   //Handlers
 
@@ -91,14 +92,11 @@ const App = () => {
       number: newNumber,
       id: contacts.length + 1,
     }
-    axios
-      .post('http://localhost:3001/persons', newObject)
+    noteService
+      .create(newObject)
       .then(response => {
         setContacts(contacts.concat(response.data))
-        //setContacts('')
       })
-    
-    //setContacts(contacts.concat(newObject))
     setNewName('')
     setNewNumber('')
   }

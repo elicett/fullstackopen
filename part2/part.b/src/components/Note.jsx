@@ -1,4 +1,4 @@
-//Part 2, subpart b. altering data on the server, Exercise 2.12, (step 7):
+//Part 2, subpart b. altering data on the server, Exercise 2.13, (step 8)
 
 const Note = ({ note, toggleImportance }) => {
     const label = note.important
