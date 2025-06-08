@@ -1,4 +1,4 @@
-//Part 2, subpart b. Forms Exercise 2.11, (step 6):
+//Part 2, subpart b. altering data on the server, Exercise 2.12, (step 7):
 
 import ReactDOM from "react-dom/client";
 import App from "./App";
