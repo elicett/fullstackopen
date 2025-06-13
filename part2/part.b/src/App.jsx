@@ -1,4 +1,4 @@
-//Part 2, subpart b. altering data on the server, Exercise 2.13, (step 8)
+//Part 2, subpart b. altering data on the server, Exercise 2.14, (step 9): Buttom to delete data
 import { useState, useEffect } from 'react'
 import noteService from './services/notes.js'
 
@@ -35,16 +35,21 @@ const PersonForm = ( {handleAddName, handleAddNumber, newName, handleSetContacts
 }
 
 
-const Persons = ({ contacts, finder }) => {
+const Persons = ({ contacts, finder, handleDeleteContact }) => {
   console.log(contacts)
 
   const filteredContacts = contacts.filter(contact =>
     contact.name.toLowerCase().includes(finder.toLowerCase())
   );
   const contactItems = filteredContacts.map(contact => (
-    <p key={contact.id}>
-      {contact.name} {contact.number}
-    </p>
+    <div key={contact.id}>
+      <span>
+        {contact.name} {contact.number}
+      </span>
+      <button type='button' onClick={() => handleDeleteContact(contact.id, contact.name)}> 
+        delete
+      </button>
+    </div>
   ));
 
   return (
@@ -89,8 +94,8 @@ const App = () => {
     }
     const newObject = {
       name: newName,
-      number: newNumber,
-      id: contacts.length + 1,
+      number: newNumber
+      //id: contacts.length + 1 has been removed to give that value through React/JSON-server
     }
     noteService
       .create(newObject)
@@ -99,6 +104,20 @@ const App = () => {
       })
     setNewName('')
     setNewNumber('')
+  }
+
+  const handleDeleteContact = (id, name) => {
+
+    if (!window.confirm(`Are you sure that you want to delete ${name}?`)) { 
+        return
+      }
+
+    console.log(id, 'deleted at: ', new Date().toLocaleTimeString())
+    noteService
+      .erase(id) 
+      .then(response => 
+        console.log('Request status:', response.status))
+        setContacts(prev => prev.filter(contact => contact.id !== id))
   }
 
   const handleAddName = (event) => {
@@ -113,7 +132,6 @@ const App = () => {
   }
 
   const handleFinder = (event) => {
-    //toLowerCase()
     setFinder(event.target.value)
     console.log(event.target.value)
   }
@@ -122,7 +140,7 @@ const App = () => {
     <div>
       <Filter contacts={contacts} handleAddName={handleAddName} handleFinder={handleFinder} handleAddNumber={handleAddNumber} handleSetContacts={handleSetContacts} newName={newName} newNumber={newNumber} finder={finder}/>
       <PersonForm contacts={contacts} handleAddName={handleAddName} handleAddNumber={handleAddNumber} handleSetContacts={handleSetContacts} newName={newName} newNumber={newNumber}/>
-      <Persons contacts={contacts} finder={finder}/>
+      <Persons contacts={contacts} finder={finder} handleDeleteContact={handleDeleteContact}/>
     </div>
   )
 }
