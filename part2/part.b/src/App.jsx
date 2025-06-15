@@ -1,4 +1,4 @@
-//Part 2, subpart b. altering data on the server, Exercise 2.14, (step 9): Buttom to delete data
+//Part 2, subpart b. altering data on the server, Exercise 2.15, (step 10): Updating number to an existing contact 
 import { useState, useEffect } from 'react'
 import noteService from './services/notes.js'
 
@@ -88,10 +88,34 @@ const App = () => {
     event.preventDefault()
     console.log("Se ejecutó handleSetContacts")
     if (contacts.map(valores => valores.name).includes(newName)===true){
-      alert('The contact "'+newName+'" already exists')
-      event.preventDefault()
+      if(!window.confirm(`${newName} is already added to phonebook, replace the old number wich a new one?`)){
+        event.preventDefault()
+        return
+      }
+      const existingContact = contacts.find(valores=> valores.name===newName)
+      
+      const editNumber = {
+        name: existingContact.name,
+        id: existingContact.id,
+        number: newNumber
+      }
+      noteService
+        .replace(editNumber)
+        .then(response=> { console.log(response.data)
+          setContacts(contacts.map(contact => 
+            contact.id === response.data.id
+              ? {
+                  id: response.data.id,
+                  name: response.data.name,
+                  number: response.data.number
+                }//operador ternario cuando la condicion es falsa (: = False)
+              : contact //operador ternario cuando la condicion es verdadera (: = True)
+          ))
+        })
+
       return
     }
+
     const newObject = {
       name: newName,
       number: newNumber
