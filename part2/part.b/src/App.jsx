@@ -1,4 +1,4 @@
-//Part 2, subpart b. altering data on the server, Exercise 2.15, (step 10): Updating number to an existing contact 
+//Part 2, subpart b. Adding styles to the react application, Exercise 2.16, (step 11): Notifications. Contact added and contact edited 
 import { useState, useEffect } from 'react'
 import noteService from './services/notes.js'
 
@@ -43,7 +43,7 @@ const Persons = ({ contacts, finder, handleDeleteContact }) => {
   );
   const contactItems = filteredContacts.map(contact => (
     <div key={contact.id}>
-      <span>
+      <span className='contactList'>
         {contact.name} {contact.number}
       </span>
       <button type='button' onClick={() => handleDeleteContact(contact.id, contact.name)}> 
@@ -62,13 +62,27 @@ const Persons = ({ contacts, finder, handleDeleteContact }) => {
 };
 
 
+  const Notification = ({ message }) => {
+    if (message===null){
+      return null
+    }
+    return (
+      <div className='notification'>
+        {message}
+      </div>
+    )
+  }
+
+
+
 const App = () => {
   const [contacts, setContacts] = useState([]) 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [finder, setFinder] = useState('')
+  const [notificationMessage, setNotificationMessage] = useState(null)
 
-
+  console.log(notificationMessage)
   //Funciones
 
   const hook = () => {
@@ -87,12 +101,26 @@ const App = () => {
   const handleSetContacts = (event) => {
     event.preventDefault()
     console.log("Se ejecutó handleSetContacts")
+
+    if (newName==='' || newName===null || newNumber==='' || newNumber===null){
+        event.preventDefault()
+        window.alert('You should fill both fields')
+        return
+      }
+
     if (contacts.map(valores => valores.name).includes(newName)===true){
       if(!window.confirm(`${newName} is already added to phonebook, replace the old number wich a new one?`)){
         event.preventDefault()
         return
       }
+
       const existingContact = contacts.find(valores=> valores.name===newName)
+      
+      if (existingContact.number===newNumber){
+        event.preventDefault()
+        window.alert('Please check: You are introducing the same phone number value')
+        return
+      }
       
       const editNumber = {
         name: existingContact.name,
@@ -111,11 +139,13 @@ const App = () => {
                 }//operador ternario cuando la condicion es falsa (: = False)
               : contact //operador ternario cuando la condicion es verdadera (: = True)
           ))
+          setNotificationMessage(`Number of the user ${response.data.name} edited correctly`)
+          setTimeout(()=> {setNotificationMessage(null)}, 5000)
         })
-
+      setNewName('')
+      setNewNumber('')
       return
     }
-
     const newObject = {
       name: newName,
       number: newNumber
@@ -125,6 +155,8 @@ const App = () => {
       .create(newObject)
       .then(response => {
         setContacts(contacts.concat(response.data))
+        setNotificationMessage(`${response.data.name} created correctly`)
+        setTimeout(()=> {setNotificationMessage(null)}, 5000)
       })
     setNewName('')
     setNewNumber('')
@@ -143,7 +175,7 @@ const App = () => {
         console.log('Request status:', response.status))
         setContacts(prev => prev.filter(contact => contact.id !== id))
   }
-
+    
   const handleAddName = (event) => {
     event.preventDefault()
     console.log(event.target.value)
@@ -162,6 +194,7 @@ const App = () => {
 
   return (
     <div>
+      <Notification message={notificationMessage}/>
       <Filter contacts={contacts} handleAddName={handleAddName} handleFinder={handleFinder} handleAddNumber={handleAddNumber} handleSetContacts={handleSetContacts} newName={newName} newNumber={newNumber} finder={finder}/>
       <PersonForm contacts={contacts} handleAddName={handleAddName} handleAddNumber={handleAddNumber} handleSetContacts={handleSetContacts} newName={newName} newNumber={newNumber}/>
       <Persons contacts={contacts} finder={finder} handleDeleteContact={handleDeleteContact}/>

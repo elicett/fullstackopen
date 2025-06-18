@@ -1,0 +1,12 @@
+/*Part 2, subpart b. Adding styles to the react application, Exercise 2.16, (step 11): Notifications. Contact added and contact edited */
+
+.notification{
+    color: green;
+    background: lightgrey;
+    font-size: 20px;
+    border-style: solid;
+    border-color: green;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+}

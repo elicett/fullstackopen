@@ -1,4 +1,4 @@
-//Part 2, subpart b. altering data on the server, Exercise 2.15, (step 10): Updating number to an existing contact 
+//Part 2, subpart b. Adding styles to the react application, Exercise 2.16, (step 11): Notifications. Contact added and contact edited 
 
 const Note = ({ note, toggleImportance }) => {
     const label = note.important

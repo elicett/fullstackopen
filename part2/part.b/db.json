@@ -2,8 +2,8 @@
   "persons": [
     {
       "name": "Arto Hellas",
-      "number": "040-123456",
-      "id": "1"
+      "id": "1",
+      "number": "00-40-123456"
     },
     {
       "name": "Ada Lovelace",
