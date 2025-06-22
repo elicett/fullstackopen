@@ -1,4 +1,4 @@
-//Part 2, subpart b. Adding styles to the react application, Exercise 2.16, (step 12): Notifications and server state. Info previously removed 
+//Part 2, subpart b. Adding styles to the react application, Exercise 2.17, (step 12): Notifications and server state. Info previously removed 
 import { useState, useEffect } from 'react'
 import noteService from './services/notes.js'
 
@@ -84,7 +84,7 @@ const Persons = ({ contacts, finder, handleDeleteContact }) => {
 
 
 const App = () => {
-  const [contacts, setContacts] = useState([]) 
+  const [contacts, setContacts] = useState(null) 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [finder, setFinder] = useState('')
@@ -105,6 +105,10 @@ const App = () => {
       })
   }
   useEffect(hook, [])
+  console.log('Contacts:',contacts)
+  if (!contacts){
+    return null
+  }
 
   //Handlers
 
