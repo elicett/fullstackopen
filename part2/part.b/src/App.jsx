@@ -1,4 +1,4 @@
-//Part 2, subpart b. Adding styles to the react application, Exercise 2.16, (step 11): Notifications. Contact added and contact edited 
+//Part 2, subpart b. Adding styles to the react application, Exercise 2.16, (step 12): Notifications and server state. Info previously removed 
 import { useState, useEffect } from 'react'
 import noteService from './services/notes.js'
 
@@ -62,9 +62,17 @@ const Persons = ({ contacts, finder, handleDeleteContact }) => {
 };
 
 
-  const Notification = ({ message }) => {
+  const Notification = ({ message, badResponse }) => {
+    console.log('badResponse:',badResponse)
     if (message===null){
       return null
+    }
+    if (badResponse===true){
+      return (
+        <div className='badNotification'>
+          {message}
+        </div>
+      )
     }
     return (
       <div className='notification'>
@@ -81,9 +89,11 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [finder, setFinder] = useState('')
   const [notificationMessage, setNotificationMessage] = useState(null)
+  const [badResponse, setBadResponse]= useState(false)
 
   console.log(notificationMessage)
   //Funciones
+
 
   const hook = () => {
     console.log('effect')
@@ -121,7 +131,7 @@ const App = () => {
         window.alert('Please check: You are introducing the same phone number value')
         return
       }
-      
+
       const editNumber = {
         name: existingContact.name,
         id: existingContact.id,
@@ -130,6 +140,7 @@ const App = () => {
       noteService
         .replace(editNumber)
         .then(response=> { console.log(response.data)
+          setBadResponse(false)
           setContacts(contacts.map(contact => 
             contact.id === response.data.id
               ? {
@@ -141,6 +152,12 @@ const App = () => {
           ))
           setNotificationMessage(`Number of the user ${response.data.name} edited correctly`)
           setTimeout(()=> {setNotificationMessage(null)}, 5000)
+        })
+        .catch(error => {
+          setBadResponse(true)
+          setNotificationMessage(`${newNumber} has been previously deleted or not data finded with that value right now. Existing contacts have been updated `)
+          setTimeout(()=> {setNotificationMessage(null)}, 10000)
+          setContacts(contacts.filter(n => n.id !== existingContact.id))
         })
       setNewName('')
       setNewNumber('')
@@ -154,6 +171,7 @@ const App = () => {
     noteService
       .create(newObject)
       .then(response => {
+        setBadResponse(false)
         setContacts(contacts.concat(response.data))
         setNotificationMessage(`${response.data.name} created correctly`)
         setTimeout(()=> {setNotificationMessage(null)}, 5000)
@@ -163,7 +181,6 @@ const App = () => {
   }
 
   const handleDeleteContact = (id, name) => {
-
     if (!window.confirm(`Are you sure that you want to delete ${name}?`)) { 
         return
       }
@@ -171,9 +188,13 @@ const App = () => {
     console.log(id, 'deleted at: ', new Date().toLocaleTimeString())
     noteService
       .erase(id) 
-      .then(response => 
-        console.log('Request status:', response.status))
+      .then(response => {
+        console.log('Request status:', response.status)
+        setBadResponse(false)
         setContacts(prev => prev.filter(contact => contact.id !== id))
+        setNotificationMessage(`${response.data.name} deleted correctly`)
+        setTimeout(()=> {setNotificationMessage(null)}, 5000)
+      })
   }
     
   const handleAddName = (event) => {
@@ -194,7 +215,7 @@ const App = () => {
 
   return (
     <div>
-      <Notification message={notificationMessage}/>
+      <Notification message={notificationMessage} badResponse={badResponse}/>
       <Filter contacts={contacts} handleAddName={handleAddName} handleFinder={handleFinder} handleAddNumber={handleAddNumber} handleSetContacts={handleSetContacts} newName={newName} newNumber={newNumber} finder={finder}/>
       <PersonForm contacts={contacts} handleAddName={handleAddName} handleAddNumber={handleAddNumber} handleSetContacts={handleSetContacts} newName={newName} newNumber={newNumber}/>
       <Persons contacts={contacts} finder={finder} handleDeleteContact={handleDeleteContact}/>

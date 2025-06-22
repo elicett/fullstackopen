@@ -31,6 +31,8 @@ De GIT:
 	git add <archivo.extension> = Añadir archivo al Stage para el posterior commit o su borrado.
 	git commit -m "comentario" -n = Enviar los cambios (Crear commit)
 	git remote add origin github@github.com:/username/nameOfRepository.git = Clonar desde GIT a Github
+	git reset HEAD <ruta/al/archivo> = Quitar la ruta del stage
+	git reset HEAD . = Quitar todos los cambios del stage
 	git push -u origin main
 
 .gitignore:
